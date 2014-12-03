@@ -48,7 +48,7 @@
         },
         resize: {
             enabled: false,
-            axes: ['both'],
+            axes: ['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'],
             handle_append_to: '',
             handle_class: 'gs-resize-handle',
             max_size: [Infinity, Infinity],
@@ -110,7 +110,7 @@
     *       @param {Boolean} [options.resize.enabled] Set to true to enable
     *        resizing.
     *       @param {Array} [options.resize.axes] Axes in which widgets can be
-    *        resized. Possible values: ['x', 'y', 'both'].
+    *        resized. Possible values: ['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'].
     *       @param {String} [options.resize.handle_append_to] Set a valid CSS
     *        selector to append resize handles to.
     *       @param {String} [options.resize.handle_class] CSS class name used
@@ -1321,6 +1321,13 @@
     * @param {Object} ui A prepared ui object with useful drag-related data
     */
     fn.on_resize = function(event, ui) {
+        var helper_class = ui.$helper.attr('class');
+        var direction = '';
+        if (helper_class.match(/gs-resize-handle-\w+/i) !== null) {
+            direction = helper_class.match(/gs-resize-handle-\w+/i)[0].replace('gs-resize-handle-', '')
+        }
+
+        console.log(direction)
         var rel_x = (ui.pointer.diff_left);
         var rel_y = (ui.pointer.diff_top);
         var wbd_x = this.options.widget_base_dimensions[0];
